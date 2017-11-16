@@ -20,7 +20,7 @@
     "url": "git+https://github.com/SassonJames/GameBlitz.git"
   },
   "dependencies": {
-    "express": "^4.15.2",
+    "express": "^4.16.2",
     "socket.io": "^2.0.4",
     "xxhashjs": "^0.2.1"
   },
