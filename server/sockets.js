@@ -15,6 +15,9 @@ const xxh = require('xxhashjs');
 //socketio server instance
 let io;
 
+const roomList = {};
+let currentRoom = 0;
+let currentRoomCount = 0;
 
 // function to setup our socket server
 const setupSockets = (ioServer) => {
