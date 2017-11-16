@@ -1,5 +1,6 @@
 "use strict";
 
+var socket = void 0;
 var canvas = void 0;
 var ctx = void 0;
 var gameState = void 0;
@@ -42,6 +43,17 @@ var draw = function draw() {
     }
 };
 
+var setupSocket = function setupSocket() {
+    //Socket Connect Part
+    socket = io.connect();
+
+    socket.on('connect', function () {
+        console.log('connecting');
+
+        socket.emit('join', {});
+    });
+};
+
 var updateDrawstack = function updateDrawstack(data) {
     draw();
 };
@@ -49,6 +61,8 @@ var updateDrawstack = function updateDrawstack(data) {
 var init = function init() {
     canvas = document.querySelector("#canvas");
     ctx = canvas.getContext("2d");
+
+    //Socket Connect Part
     gameState = 0;
     scoreBar = 500;
     window.addEventListener("keyup", function (evt) {

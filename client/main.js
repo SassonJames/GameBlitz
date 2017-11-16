@@ -1,5 +1,6 @@
 "use strict";
         
+let socket;
 let canvas;
 let ctx;
 let gameState;
@@ -41,6 +42,19 @@ const draw = () => {
             break;
         }
 };
+
+const setupSocket = () => {
+     //Socket Connect Part
+    socket = io.connect();
+    
+    socket.on('connect', () => {
+        console.log('connecting');
+        
+        socket.emit('join', {});
+        
+    });   
+    
+};
         
 const updateDrawstack = (data) => {
      draw();
@@ -49,6 +63,12 @@ const updateDrawstack = (data) => {
 const init = () => {
     canvas = document.querySelector("#canvas");
     ctx = canvas.getContext("2d");
+    
+
+    
+    
+    
+    //Socket Connect Part
     gameState = 0;
     scoreBar = 500;
     window.addEventListener("keyup", function(evt){
