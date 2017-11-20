@@ -15,9 +15,63 @@
 // socketio server instance
 let io;
 
-// const roomList = {};
-// const currentRoom = 0;
-// const currentRoomCount = 0;
+const roomList = {};
+let currentRoom = 0;
+let currentRoomCount = 0;
+
+const users = {};
+
+
+
+const onJoined = (sock) => {
+  const socket = sock;
+  
+  socket.on('join', (data) => {
+    //add user to the count
+    currentRoomCount++;
+
+
+    users[data.name] = data.name;
+    socket.name = data.name;
+
+    
+    socket.join(`room${currentRoom}`);
+
+    //if the room isn't in the roomlist
+    if(!roomList[`room${currentRoom}`]){
+        console.log(`adding room ${currentRoom} to roomList`);
+        roomList[`room${currentRoom}`] = {};
+        roomList[`room${currentRoom}`].userList = {};
+        socket.room = currentRoom;
+    };
+
+    //Add their username to the user list
+    roomList[`room${currentRoom}`].userList[currentRoomCount] = data.name;
+
+
+    // if there are 3 people in the room, start the game
+    // and change the name of the room for the next party
+    if(currentRoomCount >= 2){
+      if(currentRoomCount === 2){
+        io.sockets.in(`room${currentRoom}`).emit('startRoom', {room: currentRoom});
+        currentRoom++;
+      }
+      currentRoomCount = 0;
+    }
+  });
+
+};
+
+const onDisconnect = (sock) => {
+  const socket = sock;
+  
+  socket.on('disconnect', () => {
+    console.log(`${socket.name} left`);
+    socket.leave(`room${socket.room}`);
+
+    delete users[socket.name];
+  });
+};
 
 // function to setup our socket server
 const setupSockets = (ioServer) => {
@@ -25,15 +79,10 @@ const setupSockets = (ioServer) => {
   io = ioServer;
 
   io.sockets.on('connection', (socket) => {
-    socket.on('join', () => {
-      console.log('A Player Has Joined the Room');
-      socket.join('room1');
-    });
-
-    socket.on('disconnect', () => {
-      socket.leave('room1');
-    });
+    onJoined(socket);
+    onDisconnect(socket);
   });
+  
 };
 
 module.exports.setupSockets = setupSockets;

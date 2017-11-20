@@ -6,6 +6,12 @@ let ctx;
 let gameState;
 let scoreBar;
 
+
+//Quang connecting room
+let myRoom;
+
+
+
 let square = {
     updateTime: new Date().getTime(),
     x: 0,
@@ -48,24 +54,31 @@ const setupSocket = () => {
     socket = io.connect();
     
     socket.on('connect', () => {
-        console.log('connecting');
+        let loadingPart = document.querySelector('#loadingPart');
+        let user = document.querySelector("#username").value;
+        loginPart.innerHTML = "Waiting for the second user...";
         
-        socket.emit('join', {});
+        if(!user) {
+          user = 'Unknown';
+        }
         
+        socket.emit('join', {name: user});
+        
+        socket.on('startRoom', (data) => {
+          loadingPart.style.display = 'none';
+          myRoom = data.room;
+          let appPart = document.querySelector('#appPart');
+          appPart.style.display = 'block';     
+          setupGame();
+        });
     });   
-    
-};
-        
-const updateDrawstack = (data) => {
-     draw();
+  
+
 };
 
-const init = () => {
+const setupGame = () => {
     canvas = document.querySelector("#canvas");
     ctx = canvas.getContext("2d");
-    
-
-    
     
     
     //Socket Connect Part
@@ -88,8 +101,17 @@ const init = () => {
                 scoreBar -= 2;
             }
         }
-    });
+    });  
+    setInterval(draw, 10);
+}
+        
+
+const init = () => {
+  
+  //setup the socket
+  const connect = document.querySelector('#connect');
+  connect.addEventListener('click', setupSocket);
+  
 };
 
 window.onload = init;
-setInterval(draw, 10);

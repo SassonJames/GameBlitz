@@ -14,8 +14,11 @@
             border: 5px solid black;
         }
         
-        .hidden {
-            display: none;
+        #appPart{
+          display: none;
+        }
+        #loadingPart{
+          display: block;
         }
     </style>
     <head>
@@ -23,8 +26,20 @@
         <script src="/assets/compiled.js"> </script>
     </head>
     <body>
-        <canvas id="canvas" height="500" width="500">Why are you not using HTML5?</canvas>
-        <h2>Press Space to Begin.</h2>
-        <h3>Use Left and Right Arrow Keys to Raise the Green Platform</h3>
+      <div id ="loadingPart">
+        <h1>Welcome to sort of Mario Party style game</h1>
+        <p>This is a 2-user app in which 2 users cooperate to create a master piece</p>
+        <p>Enjoy this experience!</p>
+        <div id ="loginPart">
+          <label class="labelTitle" for="user">Username:</label>
+          <input id="username" name="user" type="text"/>
+          <input id='connect' type='button' value='Join' /> <br />
+        </div>
+      </div>
+        <div id ="appPart">
+          <canvas id="canvas" height="500" width="500">Why are you not using HTML5?</canvas>
+          <h2>Press Space to Begin.</h2>
+          <h3>Use Left and Right Arrow Keys to Raise the Green Platform</h3>
+        </div>
     </body>
 </html>

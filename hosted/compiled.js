@@ -6,6 +6,9 @@ var ctx = void 0;
 var gameState = void 0;
 var scoreBar = void 0;
 
+//Quang connecting room
+var myRoom = void 0;
+
 var square = {
     updateTime: new Date().getTime(),
     x: 0,
@@ -48,17 +51,27 @@ var setupSocket = function setupSocket() {
     socket = io.connect();
 
     socket.on('connect', function () {
-        console.log('connecting');
+        var loadingPart = document.querySelector('#loadingPart');
+        var user = document.querySelector("#username").value;
+        loginPart.innerHTML = "Waiting for the second user...";
 
-        socket.emit('join', {});
+        if (!user) {
+            user = 'Unknown';
+        }
+
+        socket.emit('join', { name: user });
+
+        socket.on('startRoom', function (data) {
+            loadingPart.style.display = 'none';
+            myRoom = data.room;
+            var appPart = document.querySelector('#appPart');
+            appPart.style.display = 'block';
+            setupGame();
+        });
     });
 };
 
-var updateDrawstack = function updateDrawstack(data) {
-    draw();
-};
-
-var init = function init() {
+var setupGame = function setupGame() {
     canvas = document.querySelector("#canvas");
     ctx = canvas.getContext("2d");
 
@@ -81,7 +94,14 @@ var init = function init() {
             }
         }
     });
+    setInterval(draw, 10);
+};
+
+var init = function init() {
+
+    //setup the socket
+    var connect = document.querySelector('#connect');
+    connect.addEventListener('click', setupSocket);
 };
 
 window.onload = init;
-setInterval(draw, 10);
