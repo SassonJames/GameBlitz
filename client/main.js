@@ -1,5 +1,3 @@
-"use strict";
-        
 let socket;
 let canvas;
 let ctx;
@@ -21,88 +19,42 @@ let square = {
     color: '#000000'
 };
 
-const draw = () => {
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    ctx.fillStyle = 'green';
-    ctx.strokeStyle = 'green';
-    ctx.fillRect(0, scoreBar, 500, 500);
-    if(scoreBar <= 0){
-        scoreBar = 0; 
-            ctx.fillStyle = 'white';
-            ctx.font = "20px Arial";
-            ctx.fillText("Congratulations!", 180, 200);
-            ctx.fillText("Press Space to Restart", 150, 250);
-        }
-    switch(gameState){
-         case 0:
-            break;
-        case 1:
-            ctx.fillStyle = 'red';
-            ctx.strokeStyle = 'red';
-            ctx.fillRect(200, 450, 50, 50);
-            break;
-        case 2:
-            ctx.fillStyle = 'blue';
-            ctx.strokeStyle = 'blue';
-            ctx.fillRect(250, 450, 50, 50);
-            break;
-        }
-};
 
+
+const keyUpHandler = (e) => {
+    var keyPressed = e.which;
+    if (keyPressed == 32) {
+       gameState = 1;
+       scoreBar = 500;
+    }
+    else if(keyPressed == 37){
+        if(gameState == 2){
+          gameState = 1;
+          scoreBar -= 2;
+        }
+    }
+    else if(keyPressed == 39){
+        if(gameState == 1){
+          gameState = 2;
+          scoreBar -= 2;
+        }
+    }
+}
 const setupSocket = () => {
      //Socket Connect Part
     socket = io.connect();
-    
-    socket.on('connect', () => {
-        let loadingPart = document.querySelector('#loadingPart');
-        let user = document.querySelector("#username").value;
-        loginPart.innerHTML = "Waiting for the second user...";
-        
-        if(!user) {
-          user = 'Unknown';
-        }
-        
-        socket.emit('join', {name: user});
-        
-        socket.on('startRoom', (data) => {
-          loadingPart.style.display = 'none';
-          myRoom = data.room;
-          let appPart = document.querySelector('#appPart');
-          appPart.style.display = 'block';     
-          setupGame();
-        });
-    });   
-  
-
+    socket.on('connect', ready);
 };
 
 const setupGame = () => {
     canvas = document.querySelector("#canvas");
     ctx = canvas.getContext("2d");
     
-    
     //Socket Connect Part
     gameState = 0;
     scoreBar = 500;
-    window.addEventListener("keyup", function(evt){
-        if (evt.keyCode == 32) {
-            gameState = 1;
-            scoreBar = 500;
-        }
-        else if(evt.keyCode == 37){
-            if(gameState == 2){
-                gameState = 1;
-                scoreBar -= 2;
-            }
-        }
-        else if(evt.keyCode == 39){
-            if(gameState == 1){
-                gameState = 2;
-                scoreBar -= 2;
-            }
-        }
-    });  
-    setInterval(draw, 10);
+    document.body.addEventListener('keyup', keyUpHandler);  
+    //setInterval(draw, 10);
 }
         
 
