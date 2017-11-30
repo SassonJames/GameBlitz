@@ -4,7 +4,6 @@ let ctx;
 let gameState;
 let scoreBar;
 
-
 //Quang connecting room
 let myRoom;
 
@@ -59,7 +58,7 @@ const setupGame = () => {
         
 
 const init = () => {
-  
+
   //setup the socket
   const connect = document.querySelector('#connect');
   connect.addEventListener('click', setupSocket);

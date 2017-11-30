@@ -163,7 +163,9 @@ var ready = function ready() {
     myRoom = data.room;
     var appPart = document.querySelector('#appPart');
     appPart.style.display = 'block';
+
     setupGame();
   });
+
   requestAnimationFrame(draw);
 };

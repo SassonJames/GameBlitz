@@ -66,14 +66,17 @@ const ready = () => {
     }
         
     socket.emit('join', {name: user});
-        
+
     socket.on('startRoom', (data) => {
         loadingPart.style.display = 'none';
         myRoom = data.room;
         let appPart = document.querySelector('#appPart');
-        appPart.style.display = 'block';     
+        appPart.style.display = 'block';
+
         setupGame();
     });
+  
+
     requestAnimationFrame(draw);
     
 };

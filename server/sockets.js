@@ -9,8 +9,11 @@
 // Custom message class for sending messages to our other process
 // const Message = require('./messages/Message.js');
 
-// object to hold user character objects
-// const charList = {};
+//Character custom class
+const Character = require('./messages/Character.js');
+
+//Custom message class for sending messsages to our other process
+const Message = require('./messages/Message.js');
 
 // socketio server instance
 let io;
@@ -44,10 +47,22 @@ const onJoined = (sock) => {
         roomList[`room${currentRoom}`].userList = {};
         socket.room = currentRoom;
     };
-
+    
+    //Test see room list
+    //roomList:
+    //{ room0: //
+    //  { userList: //
+    //    { '1': 'A', 
+    //      '2': 'B' 
+    //    } 
+    //  }  
+    // }
+    
     //Add their username to the user list
-    roomList[`room${currentRoom}`].userList[currentRoomCount] = data.name;
-
+    
+    roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
+    
+    console.dir(roomList);
 
     // if there are 3 people in the room, start the game
     // and change the name of the room for the next party
