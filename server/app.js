@@ -31,6 +31,7 @@ const app = express();
   The URL /assets/img/favicon.png would pull the file /hosted/img/favicon.png
 * */
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
+app.use('/client', express.static(path.resolve(`${__dirname}/../client`)));
 
 /**
   app.get says on GET request to a certain URL

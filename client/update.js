@@ -74,6 +74,5 @@ const ready = () => {
         appPart.style.display = 'block';     
         setupGame();
     });
-    requestAnimationFrame(draw);
     
 };

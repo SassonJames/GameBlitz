@@ -1,4 +1,3 @@
-let socket;
 let canvas;
 let ctx;
 let gameState;
@@ -53,7 +52,8 @@ const setupGame = () => {
     //Socket Connect Part
     gameState = 0;
     scoreBar = 500;
-    document.body.addEventListener('keyup', keyUpHandler);  
+    document.body.addEventListener('keyup', keyUpHandler);
+    requestAnimationFrame(draw);
     //setInterval(draw, 10);
 }
         
