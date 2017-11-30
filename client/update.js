@@ -56,6 +56,10 @@ const updatePosition = () => {
   socket.emit('movementUpdate', square);
 };
 
+const updateScore = (data) => {
+    scoreBar = data;
+};
+
 const ready = () => {
     let loadingPart = document.querySelector('#loadingPart');
     let user = document.querySelector("#username").value;

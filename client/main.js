@@ -23,18 +23,19 @@ const keyUpHandler = (e) => {
     var keyPressed = e.which;
     if (keyPressed == 32) {
        gameState = 1;
-       scoreBar = 500;
     }
     else if(keyPressed == 37){
         if(gameState == 2){
           gameState = 1;
           scoreBar -= 2;
+          socket.emit('updateScorebar', scoreBar);
         }
     }
     else if(keyPressed == 39){
         if(gameState == 1){
           gameState = 2;
           scoreBar -= 2;
+          socket.emit('updateScorebar', scoreBar);
         }
     }
 }
@@ -42,6 +43,9 @@ const setupSocket = () => {
      //Socket Connect Part
     socket = io.connect();
     socket.on('connect', ready);
+    socket.on('recieveScore', (data) => {
+        updateScore(data);
+    });
 };
 
 const setupGame = () => {

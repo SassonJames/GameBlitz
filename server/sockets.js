@@ -9,11 +9,11 @@
 // Custom message class for sending messages to our other process
 // const Message = require('./messages/Message.js');
 
-//Character custom class
+// Character custom class
 const Character = require('./messages/Character.js');
 
-//Custom message class for sending messsages to our other process
-const Message = require('./messages/Message.js');
+// Custom message class for sending messsages to our other process
+// const Message = require('./messages/Message.js');
 
 // socketio server instance
 let io;
@@ -25,61 +25,66 @@ let currentRoomCount = 0;
 const users = {};
 
 
-
 const onJoined = (sock) => {
   const socket = sock;
-  
+
   socket.on('join', (data) => {
-    //add user to the count
+    // add user to the count
     currentRoomCount++;
 
 
     users[data.name] = data.name;
     socket.name = data.name;
 
-    
+
     socket.join(`room${currentRoom}`);
 
-    //if the room isn't in the roomlist
-    if(!roomList[`room${currentRoom}`]){
-        console.log(`adding room ${currentRoom} to roomList`);
-        roomList[`room${currentRoom}`] = {};
-        roomList[`room${currentRoom}`].userList = {};
-        socket.room = currentRoom;
-    };
-    
-    //Test see room list
-    //roomList:
-    //{ room0: //
+    // if the room isn't in the roomlist
+    if (!roomList[`room${currentRoom}`]) {
+      console.log(`adding room ${currentRoom} to roomList`);
+      roomList[`room${currentRoom}`] = {};
+      roomList[`room${currentRoom}`].userList = {};
+    }
+    socket.room = currentRoom;
+    // Test see room list
+    // roomList:
+    // { room0: //
     //  { userList: //
-    //    { '1': 'A', 
-    //      '2': 'B' 
-    //    } 
-    //  }  
+    //    { '1': 'A',
+    //      '2': 'B'
+    //    }
+    //  }
     // }
-    
-    //Add their username to the user list
-    
+
+    // Add their username to the user list
+
     roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
-    
+
     console.dir(roomList);
 
     // if there are 3 people in the room, start the game
     // and change the name of the room for the next party
-    if(currentRoomCount >= 2){
-      if(currentRoomCount === 2){
-        io.sockets.in(`room${currentRoom}`).emit('startRoom', {room: currentRoom});
+    if (currentRoomCount >= 2) {
+      if (currentRoomCount === 2) {
+        io.sockets.in(`room${currentRoom}`).emit('startRoom', { room: currentRoom });
         currentRoom++;
       }
       currentRoomCount = 0;
     }
   });
+};
 
+const onUpdateScore = (sock) => {
+  const socket = sock;
+
+  socket.on('updateScorebar', (data) => {
+    socket.broadcast.to(`room${socket.room}`).emit('recieveScore', data);
+  });
 };
 
 const onDisconnect = (sock) => {
   const socket = sock;
-  
+
   socket.on('disconnect', () => {
     console.log(`${socket.name} left`);
     socket.leave(`room${socket.room}`);
@@ -95,9 +100,8 @@ const setupSockets = (ioServer) => {
 
   io.sockets.on('connection', (socket) => {
     onJoined(socket);
+    onUpdateScore(socket);
     onDisconnect(socket);
   });
-  
 };
-
 module.exports.setupSockets = setupSockets;
