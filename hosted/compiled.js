@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
 var draw = function draw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'green';
-    ctx.strokeStyle = 'green';
 
     var keys = Object.keys(users);
 
     //for each user
     for (var i = 0; i < keys.length; i++) {
         var user = users[keys[i]];
+        ctx.fillStyle = user.color;
+        ctx.strokeStyle = user.color;
         ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);
     }
 
@@ -134,6 +134,18 @@ var removeUser = function removeUser(data) {
 var setUser = function setUser(data) {
   name = data.name; //set this user's hash to the unique one they received
   users[name] = data; //set the character by their name
+
+  //Testing
+  var yellow = document.createElement("span");
+  yellow.textContent = users[name].color.toUpperCase() + ' ';
+  yellow.style.color = users[name].color;
+
+  var instruction = document.getElementById("instruction");
+  //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+
+  instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
+  instruction.appendChild(yellow);
+  instruction.innerHTML += 'platform';
 };
 
 //update this user's positions based on keyboard input

@@ -20,6 +20,10 @@
         #loadingPart{
           display: block;
         }
+      
+        .yellow {
+          color: yellow;
+        }
     </style>
     <head>
         <script src="/socket.io/socket.io.js"></script>
@@ -41,7 +45,7 @@
         <div id ="appPart">
           <canvas id="canvas" height="500" width="500">Why are you not using HTML5?</canvas>
           <h2>Press Space to Begin.</h2>
-          <h3>Use Left and Right Arrow Keys to Raise the Green Platform</h3>
+          <h3 id="instruction">Use Left and Right Arrow Keys to Raise the Green Platform</h3>
         </div>
     </body>
 </html>

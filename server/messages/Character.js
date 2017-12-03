@@ -22,13 +22,14 @@ class Character {
     this.name = name;
     this.currentRoom = 0;
     this.currentRoomCount = 0;
-    this.scorebar = 500;
+    this.scorebar = 450;
     this.canvasWidth = 500;
     this.canvasHeight = 500;
     this.spaceX = 0;
     this.spaceY = 0;
     this.widthX = 0;
     this.widthY = 0;
+    this.color = 'green';
   }
 }
 

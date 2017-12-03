@@ -1,14 +1,15 @@
 const draw = () => {
   
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    ctx.fillStyle = 'green';
-    ctx.strokeStyle = 'green';
+
   
     const keys = Object.keys(users);
 
     //for each user
     for(let i = 0; i < keys.length; i++){
       const user = users[keys[i]];
+      ctx.fillStyle = user.color;
+      ctx.strokeStyle = user.color;
       ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);     
     }
   

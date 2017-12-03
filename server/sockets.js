@@ -22,7 +22,8 @@ const roomList = {};
 let currentRoom = 0;
 let currentRoomCount = 0;
 let name = '';
-
+const colors = ['green', 'yellow', 'grey', 'red'];
+const maxCount = 2;
 const users = {};
 
 
@@ -63,7 +64,8 @@ const onJoined = (sock) => {
     users[data.name].currentRoom = currentRoom;
     users[data.name].currentRoomCount = currentRoomCount;
     users[data.name].spaceX = (currentRoomCount-1) * 250;
-    users[data.name].widthX = users[data.name].canvasWidth / 2; 
+    users[data.name].widthX = users[data.name].canvasWidth / maxCount;
+    users[data.name].color = colors[currentRoomCount-1];
   
     socket.emit('setUser',  users[data.name]);
 
