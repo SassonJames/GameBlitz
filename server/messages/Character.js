@@ -1,6 +1,5 @@
 class Character {
   constructor(name) {
-    this.name = name;
     this.lastUpdate = new Date().getTime();
     this.x = 0;
     this.y = 0;
@@ -18,6 +17,18 @@ class Character {
     this.moveRight = false;
     this.moveDown = false;
     this.moveUp = false;
+    
+    //This assignment variable
+    this.name = name;
+    this.currentRoom = 0;
+    this.currentRoomCount = 0;
+    this.scorebar = 500;
+    this.canvasWidth = 500;
+    this.canvasHeight = 500;
+    this.spaceX = 0;
+    this.spaceY = 0;
+    this.widthX = 0;
+    this.widthY = 0;
   }
 }
 

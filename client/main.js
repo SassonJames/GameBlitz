@@ -3,9 +3,14 @@ let ctx;
 let gameState;
 let scoreBar;
 
-//Quang connecting room
-let myRoom;
+//our websocket connection
+let socket;
+let name;
+let animationFrame;
 
+//Quang connecting room
+let users = [];
+let user;
 
 
 let square = {
@@ -17,8 +22,6 @@ let square = {
     color: '#000000'
 };
 
-
-
 const keyUpHandler = (e) => {
     var keyPressed = e.which;
     if (keyPressed == 32) {
@@ -27,15 +30,13 @@ const keyUpHandler = (e) => {
     else if(keyPressed == 37){
         if(gameState == 2){
           gameState = 1;
-          scoreBar -= 2;
-          socket.emit('updateScorebar', scoreBar);
+          users[name].scorebar -= 2;
         }
     }
     else if(keyPressed == 39){
         if(gameState == 1){
           gameState = 2;
-          scoreBar -= 2;
-          socket.emit('updateScorebar', scoreBar);
+          users[name].scorebar -= 2;
         }
     }
 }
@@ -43,30 +44,15 @@ const setupSocket = () => {
      //Socket Connect Part
     socket = io.connect();
     socket.on('connect', ready);
-    socket.on('recieveScore', (data) => {
-        updateScore(data);
-    });
+    socket.on('setUser', setUser);
+    socket.on('updatedMovement', update);
 };
 
-const setupGame = () => {
-    canvas = document.querySelector("#canvas");
-    ctx = canvas.getContext("2d");
-    
-    //Socket Connect Part
-    gameState = 0;
-    scoreBar = 500;
-    document.body.addEventListener('keyup', keyUpHandler);
-    requestAnimationFrame(draw);
-    //setInterval(draw, 10);
-}
         
-
 const init = () => {
-
   //setup the socket
   const connect = document.querySelector('#connect');
   connect.addEventListener('click', setupSocket);
-  
 };
 
 window.onload = init;

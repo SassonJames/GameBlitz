@@ -2,30 +2,26 @@
 const update = (data) => {
   //if we do not have that character (based on their id)
   //then add them
-  if(!squares[data.hash]) {
-    squares[data.hash] = data;
+  console.dir(data.name);
+  if(!users[data.name]) {
+    users[data.name] = data;
     return;
   }
 
   //if the update is for our own character (we dont need it)
   //Although, it could be used for player validation
-
-
-  //if we received an old message, just drop it
-  if(squares[data.hash].lastUpdate >= data.lastUpdate) {
+  if(data.name === name){
     return;
   }
-
-  if(data.hash === hash) {
-    const square = squares[data.hash];
-    square.speedX = data.speedX;
-    square.speedY = data.speedY;
+  
+  //if we received an old message, just drop it
+  if(users[data.name].lastUpdate >= data.lastUpdate) {
+    return;
   }
-  else{
-    //grab the character based on the character id we received
-    const square = squares[data.hash];
-
-  }
+  
+  const user = users[data.name];
+  user.scorebar = data.scorebar;
+  
   //console.dir(data.speedX)
 };
 
@@ -33,20 +29,20 @@ const update = (data) => {
 //function to remove a character from our character list
 const removeUser = (data) => {
   //if we have that character, remove them
-  if(squares[data.hash]) {
-    delete squares[data.hash];
+  if(users[data.name]) {
+    delete users[data.name];
   }
 };
 
 const setUser = (data) => {
-  hash = data.hash; //set this user's hash to the unique one they received
-  squares[hash] = data; //set the character by their hash
-  requestAnimationFrame(redraw); //start animating
+  name = data.name; //set this user's hash to the unique one they received
+  users[name] = data; //set the character by their name
+
 };
 
 //update this user's positions based on keyboard input
 const updatePosition = () => {
-  const square = squares[hash];
+  const user = users[hash];
 
 
   //reset this character's alpha so they are always smoothly animating
@@ -60,23 +56,32 @@ const updateScore = (data) => {
     scoreBar = data;
 };
 
+const setupGame = () => {
+    canvas = document.querySelector("#canvas");
+    ctx = canvas.getContext("2d");
+    requestAnimationFrame(draw); //start animating
+    //Socket Connect Part
+    gameState = 0;
+    scoreBar = 500;
+    document.body.addEventListener('keyup', keyUpHandler);
+    //setInterval(draw, 10);
+}
+
 const ready = () => {
     let loadingPart = document.querySelector('#loadingPart');
-    let user = document.querySelector("#username").value;
+    name = document.querySelector("#username").value;
     loginPart.innerHTML = "Waiting for the second user...";
         
-    if(!user) {
-        user = 'Unknown';
-    }
+    if(!name) {
+        user = 'unknown';
+    } 
         
-    socket.emit('join', {name: user});
-
+    socket.emit('join', {name: name});
     socket.on('startRoom', (data) => {
         loadingPart.style.display = 'none';
-        myRoom = data.room;
+        //    socket.on('setUser', setUser);User(data);
         let appPart = document.querySelector('#appPart');
         appPart.style.display = 'block';
-
         setupGame();
     });
     
