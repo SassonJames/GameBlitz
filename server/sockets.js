@@ -107,7 +107,6 @@ const onUpdateMovement = (sock) => {
         users[socket.name].lastUpdate = new Date().getTime();
         users[socket.name].scorebar = data.scorebar;
 
-         console.dir(users[socket.name].currentRoom);
         // notify everyone of the user's updated movement
         io.sockets.in(`room${users[socket.name].currentRoom}`).emit('updatedMovement', users[socket.name]);
       }
