@@ -2,7 +2,7 @@
 const update = (data) => {
   //if we do not have that character (based on their id)
   //then add them
-  console.dir(data.name);
+  //console.dir(data.name);
   if(!users[data.name]) {
     users[data.name] = data;
     return;
@@ -73,8 +73,12 @@ const setupGame = () => {
     requestAnimationFrame(draw); //start animating
     //Socket Connect Part
     gameState = 0;
+    currentGame = 0;
     scoreBar = 500;
+    pumpSpot = 0;
+    pumping = false;
     document.body.addEventListener('keyup', keyUpHandler);
+    document.body.addEventListener('keydown', keyDownHandler);
     //setInterval(draw, 10);
 }
 

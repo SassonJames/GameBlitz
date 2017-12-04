@@ -18,10 +18,10 @@ const Character = require('./messages/Character.js');
 // socketio server instance
 let io;
 
-const roomList = {};
+// const roomList = {};
 let currentRoom = 0;
 let currentRoomCount = 0;
-let name = '';
+// const name = '';
 const colors = ['green', 'yellow', 'grey', 'red'];
 const maxCount = 2;
 const users = {};
@@ -37,16 +37,16 @@ const onJoined = (sock) => {
 
     users[data.name] = data.name;
     socket.name = data.name;
-    
+
 
     socket.join(`room${currentRoom}`);
-    
+
     // if the room isn't in the roomlist
-    //if (!roomList[`room${currentRoom}`]) {
-      //console.log(`adding room ${currentRoom} to roomList`);
-      //roomList[`room${currentRoom}`] = {};
-      //roomList[`room${currentRoom}`].userList = {};
-    //}
+    // if (!roomList[`room${currentRoom}`]) {
+    // console.log(`adding room ${currentRoom} to roomList`);
+    // roomList[`room${currentRoom}`] = {};
+    // roomList[`room${currentRoom}`].userList = {};
+    // }
     socket.room = currentRoom;
     // Test see room list
     // roomList:
@@ -59,17 +59,16 @@ const onJoined = (sock) => {
     // }
     // Add their username to the user list
 
-    //roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
+    // roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
     users[data.name] = new Character(data.name);
     users[data.name].currentRoom = currentRoom;
     users[data.name].currentRoomCount = currentRoomCount;
-    users[data.name].spaceX = (currentRoomCount-1) * 250;
+    users[data.name].spaceX = (currentRoomCount - 1) * 250;
     users[data.name].widthX = users[data.name].canvasWidth / maxCount;
-    users[data.name].color = colors[currentRoomCount-1];
-  
-    socket.emit('setUser',  users[data.name]);
+    users[data.name].color = colors[currentRoomCount - 1];
 
-  
+    socket.emit('setUser', users[data.name]);
+
 
     // if there are 3 people in the room, start the game
     // and change the name of the room for the next party
@@ -81,38 +80,36 @@ const onJoined = (sock) => {
       }
       currentRoomCount = 0;
     }
-    
-
   });
 };
 
-const onUpdateScore = (sock) => {
+/* const onUpdateScore = (sock) => {
   const socket = sock;
 
   socket.on('updateScorebar', (data) => {
     socket.broadcast.to(`room${socket.room}`).emit('recieveScore', data);
   });
 };
+*/
 const onUpdateMovement = (sock) => {
   const socket = sock;
 
- socket.on('movementUpdate', (data) => {
-      // update the user's info
-      // NOTICE: THIS IS NOT VALIDED AND IS UNSAFE
+  socket.on('movementUpdate', (data) => {
+    // update the user's info
+    // NOTICE: THIS IS NOT VALIDED AND IS UNSAFE
 
-      //charList[socket.hash].x = data.x;
+    // charList[socket.hash].x = data.x;
 
-      if(users[socket.name]){
-        // update the timestamp of the last change for this character
-        users[socket.name].lastUpdate = new Date().getTime();
-        users[socket.name].scorebar = data.scorebar;
+    if (users[socket.name]) {
+      // update the timestamp of the last change for this character
+      users[socket.name].lastUpdate = new Date().getTime();
+      users[socket.name].scorebar = data.scorebar;
 
-        // notify everyone of the user's updated movement
-        io.sockets.in(`room${users[socket.name].currentRoom}`).emit('updatedMovement', users[socket.name]);
-      }
-    });
+      // notify everyone of the user's updated movement
+      io.sockets.in(`room${users[socket.name].currentRoom}`).emit('updatedMovement', users[socket.name]);
+    }
+  });
 };
-
 
 
 const onDisconnect = (sock) => {

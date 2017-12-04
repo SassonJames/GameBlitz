@@ -17,8 +17,8 @@ class Character {
     this.moveRight = false;
     this.moveDown = false;
     this.moveUp = false;
-    
-    //This assignment variable
+
+    // This assignment variable
     this.name = name;
     this.currentRoom = 0;
     this.currentRoomCount = 0;
