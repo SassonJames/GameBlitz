@@ -5,6 +5,7 @@ let currentGame;
 let pumpSpot;
 let pumping;
 let scoreBar;
+let currentWinner;
 
 //our websocket connection
 let socket;
@@ -34,17 +35,14 @@ const keyUpHandler = (e) => {
                         if(gameState == 0){
                             gameState = 1;
                         }
-                        else if(gameState == 3){
-                            currentGame = 1;
-                            gameState = 0;
-                            scoreBar = 0;
-                            users[name].scorebar = 0;
+                        else if(gameState == 5){
+                            socket.emit('resetScores');
                         }
                         break;
                     case 37:
                         if(gameState == 1){
                             gameState = 2;
-                            users[name].scorebar -= 4;
+                            users[name].scorebar -= 40;
                             if(users[name].scorebar < 0){
                                 users[name].scorebar = 0;
                             }
@@ -53,7 +51,7 @@ const keyUpHandler = (e) => {
                     case 39:
                         if(gameState == 2){
                             gameState = 1;
-                            users[name].scorebar -= 4;
+                            users[name].scorebar -= 40;
                             if(users[name].scorebar < 0){
                                 users[name].scorebar = 0;
                             }
@@ -67,11 +65,8 @@ const keyUpHandler = (e) => {
                         if(gameState == 0){
                             gameState = 2;
                         }
-                        else if(gameState == 3){
-                            currentGame = 2;
-                            gameState = 0;
-                            scoreBar = 450;
-                            users[name].scorebar = 450;
+                        else if(gameState == 5){
+                            socket.emit('resetScores');
                         }
                         break;
                     case 38:
@@ -88,10 +83,7 @@ const keyUpHandler = (e) => {
                             gameState = 1;
                         }
                         else if(gameState == 5){
-                            currentGame = 0;
-                            gameState = 0;
-                            scoreBar = 450; 
-                            users[name].scorebar = 450;
+                            socket.emit('resetScores');
                         }
                         break;
                     case 37:
@@ -165,6 +157,7 @@ const setupSocket = () => {
     socket.on('connect', ready);
     socket.on('setUser', setUser);
     socket.on('updatedMovement', update);
+    socket.on('nextGame', readyNextGame);
 };
 
         

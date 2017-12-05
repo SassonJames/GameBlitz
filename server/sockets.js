@@ -111,12 +111,22 @@ const onUpdateMovement = (sock) => {
   });
 };
 
+const onResetScores = (sock) => {
+    const socket = sock;
+    
+    socket.on('resetScores', () => {
+        if(users[socket.name]) {
+            io.sockets.in(`room${users[socket.name].currentRoom}`).emit('nextGame');
+        }
+    });
+};
+
 
 const onDisconnect = (sock) => {
   const socket = sock;
 
   socket.on('disconnect', () => {
-    //console.log(`${socket.name} left`);
+    // console.log(`${socket.name} left`);
     socket.leave(`room${socket.room}`);
 
     delete users[socket.name];
@@ -131,6 +141,7 @@ const setupSockets = (ioServer) => {
   io.sockets.on('connection', (socket) => {
     onJoined(socket);
     onUpdateMovement(socket);
+    onResetScores(socket);
     onDisconnect(socket);
   });
 };

@@ -7,24 +7,50 @@ const update = (data) => {
     users[data.name] = data;
     return;
   }
-
+  
+  const user = users[data.name];
+  user.scorebar = data.scorebar;
+    
+  switch(currentGame){
+      case 0:
+          if(user.scorebar <= 0){
+              gameWin(user);
+              scoreBar = 0;
+          }
+          break;
+      case 1:
+          if(user.scorebar >= 250){
+              gameWin(user);
+              scoreBar = 250;
+          }
+          break;
+      case 2:
+          if(user.scorebar <= 100){
+              gameWin(user);
+              scoreBar = 100;
+          }
+          break;
+  }
+    
   //if the update is for our own character (we dont need it)
   //Although, it could be used for player validation
-  if(data.name === name){
+  if(user.name === name){
+    
     return;
   }
-  
+    
   //if we received an old message, just drop it
   if(users[data.name].lastUpdate >= data.lastUpdate) {
     return;
   }
   
-  const user = users[data.name];
-  user.scorebar = data.scorebar;
-  
   //console.dir(data.speedX)
 };
 
+const gameWin = (player) => {
+    currentWinner = player.name;
+    gameState = 5;
+};
 
 //function to remove a character from our character list
 const removeUser = (data) => {
@@ -77,6 +103,7 @@ const setupGame = () => {
     scoreBar = 450;
     pumpSpot = 0;
     pumping = false;
+    currentWinner = "";
     document.body.addEventListener('keyup', keyUpHandler);
     document.body.addEventListener('keydown', keyDownHandler);
     //setInterval(draw, 10);
@@ -100,4 +127,23 @@ const ready = () => {
         setupGame();
     });
     
+};
+
+const readyNextGame = () => {
+    gameState = 0;
+    switch(currentGame){
+        case 0:
+            currentGame = 1;
+            users[name].scorebar = 0;
+            break;
+        case 1:
+            currentGame = 2;
+            users[name].scorebar = 450;
+            break;
+        case 2:
+            console.dir("Hit.");
+            currentGame = 0;
+            users[name].scorebar = 450;
+            break;
+    }
 };

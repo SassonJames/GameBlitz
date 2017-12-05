@@ -1,5 +1,4 @@
 const draw = () => {
-  
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
   
@@ -27,15 +26,11 @@ const draw = () => {
                     ctx.strokeStyle = 'blue';
                     ctx.fillRect(250, 450, 50, 50);
                     break;
+                case 5:
+                    drawWin();
+                    break;
             }
-            if(users[name].scorebar <= 0){
-                scoreBar = 0;
-                ctx.fillStyle = 'black';
-                ctx.font = "20px Arial";
-                ctx.fillText("Congratulations!", 180, 200);
-                ctx.fillText("Press Space to Move On", 150, 250);
-                gameState = 3;
-            }
+            
             break;
         case 1:
             //for each user
@@ -67,19 +62,9 @@ const draw = () => {
                     ctx.strokeStyle = 'blue';
                     ctx.fillRect(200, 490, 100, 10);
                     break;
-                case 3:
+                case 5:
+                    drawWin();
                     break;
-                case 4:
-                    console.log("Here?!");
-                    break;
-            }
-            if(users[name].scorebar >= 250){
-                scoreBar = 250;
-                ctx.fillStyle = 'black';
-                ctx.font = "20px Arial";
-                ctx.fillText("Congratulations!", 180, 200);
-                ctx.fillText("Press Space to Move On!", 150, 250);
-                gameState = 3;
             }
             break;
         case 2:
@@ -118,18 +103,18 @@ const draw = () => {
                     ctx.fillRect(polePos+125, 450, 50, 5);
                     break;
                 case 5:
+                    drawWin();
                     break;
-            }
-            if(users[name].scorebar <= 100){
-                scoreBar = 400;
-                ctx.fillStyle = 'black';
-                ctx.font = "20px Arial";
-                ctx.fillText("Congratulations!", 180, 200);
-                ctx.fillText("Press Space to Move On!", 150, 250);
-                gameState = 5;
             }
             break;
     }
     socket.emit('movementUpdate', users[name]);
     requestAnimationFrame(draw);
+};
+
+const drawWin = () => {
+    ctx.fillStyle = 'black';
+    ctx.font = "20px Arial";
+    ctx.fillText(currentWinner += " Wins!", 180, 200);
+    ctx.fillText("Press Space to Move On!", 150, 250);
 };
