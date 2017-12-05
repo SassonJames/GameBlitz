@@ -74,7 +74,7 @@ const setupGame = () => {
     //Socket Connect Part
     gameState = 0;
     currentGame = 0;
-    scoreBar = 500;
+    scoreBar = 450;
     pumpSpot = 0;
     pumping = false;
     document.body.addEventListener('keyup', keyUpHandler);

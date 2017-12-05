@@ -116,7 +116,7 @@ const onDisconnect = (sock) => {
   const socket = sock;
 
   socket.on('disconnect', () => {
-    console.log(`${socket.name} left`);
+    //console.log(`${socket.name} left`);
     socket.leave(`room${socket.room}`);
 
     delete users[socket.name];

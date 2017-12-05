@@ -12,15 +12,7 @@ const draw = () => {
               const user = users[keys[i]];
               ctx.fillStyle = user.color;
               ctx.strokeStyle = user.color;
-              ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);     
-            }
-            if(users[name].scorebar <= 0){
-                scoreBar = 0; 
-                ctx.fillStyle = 'black';
-                ctx.font = "20px Arial";
-                ctx.fillText("Congratulations!", 180, 200);
-                ctx.fillText("Press Space to Move On", 150, 250);
-                gameState = 3;
+              ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);
             }
             switch(gameState){  
                 case 0:
@@ -36,25 +28,25 @@ const draw = () => {
                     ctx.fillRect(250, 450, 50, 50);
                     break;
             }
+            if(users[name].scorebar <= 0){
+                scoreBar = 0;
+                ctx.fillStyle = 'black';
+                ctx.font = "20px Arial";
+                ctx.fillText("Congratulations!", 180, 200);
+                ctx.fillText("Press Space to Move On", 150, 250);
+                gameState = 3;
+            }
             break;
         case 1:
             //for each user
-            for(let i = 0; i < keys.length; i++){
+            for(let i = keys.length-1; i >= 0; i--){
               const user = users[keys[i]];
               ctx.fillStyle = user.color;
               ctx.strokeStyle = user.color;
               ctx.beginPath();
-              ctx.arc(250,500-scoreBar,scoreBar,0,2*Math.PI);
+              ctx.arc(250,500-user.scorebar,user.scorebar,0,2*Math.PI);
               ctx.fill();
               ctx.stroke();
-            }
-            if(scoreBar >= 250){
-                scoreBar = 250;
-                ctx.fillStyle = 'black';
-                ctx.font = "20px Arial";
-                ctx.fillText("Congratulations!", 180, 200);
-                ctx.fillText("Press Space to Move On!", 150, 250);
-                gameState = 3;
             }
             switch(gameState){
                 case 0:
@@ -69,15 +61,73 @@ const draw = () => {
                     ctx.fillStyle = 'red';
                     ctx.strokeStyle = 'red';
                     ctx.fillRect(200, 490-pumpSpot, 100, 10);
+                    break;
                 case 2:
                     ctx.fillStyle = 'blue';
                     ctx.strokeStyle = 'blue';
                     ctx.fillRect(200, 490, 100, 10);
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    console.log("Here?!");
+                    break;
+            }
+            if(users[name].scorebar >= 250){
+                scoreBar = 250;
+                ctx.fillStyle = 'black';
+                ctx.font = "20px Arial";
+                ctx.fillText("Congratulations!", 180, 200);
+                ctx.fillText("Press Space to Move On!", 150, 250);
+                gameState = 3;
             }
             break;
         case 2:
-            ctx.font = "30px Arial";
-            ctx.fillText("Game 3 Here",200,220);
+            let polePos = 0;
+            for(let i = keys.length-1; i >= 0; i--){
+              const user = users[keys[i]];
+              ctx.fillStyle = 'grey';
+              ctx.fillRect(user.spaceX + 125, 50, 10, 500);
+              ctx.fillStyle = user.color;
+              ctx.strokeStyle = user.color;
+              ctx.beginPath();
+              ctx.moveTo(user.spaceX+130, user.scorebar);
+              ctx.lineTo(user.spaceX+130, user.scorebar-50);
+              ctx.lineTo(user.spaceX+200, user.scorebar-25);
+              ctx.fill();
+              ctx.stroke();
+              polePos = user.spaceX;
+            }
+            switch(gameState){
+                case 0:
+                    break;
+                case 1:
+                    ctx.fillStyle = 'blue';
+                    ctx.fillRect(polePos+125, 450, 5, 50);
+                    break;
+                case 2:
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(polePos+75, 450, 50, 5);
+                    break;
+                case 3:
+                    ctx.fillStyle = 'black';
+                    ctx.fillRect(polePos+125, 400, 5, 50);
+                    break;
+                case 4:
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(polePos+125, 450, 50, 5);
+                    break;
+                case 5:
+                    break;
+            }
+            if(users[name].scorebar <= 100){
+                scoreBar = 400;
+                ctx.fillStyle = 'black';
+                ctx.font = "20px Arial";
+                ctx.fillText("Congratulations!", 180, 200);
+                ctx.fillText("Press Space to Move On!", 150, 250);
+                gameState = 5;
+            }
             break;
     }
     socket.emit('movementUpdate', users[name]);
