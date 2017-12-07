@@ -6,6 +6,7 @@ let pumpSpot;
 let pumping;
 let scoreBar;
 let currentWinner;
+let gameReady;
 
 //our websocket connection
 let socket;
@@ -76,6 +77,7 @@ const keyUpHandler = (e) => {
                         gameState = 1;
                         break;
                 }
+                break;
             case 2: 
                 switch(keyPressed){
                     case 32:

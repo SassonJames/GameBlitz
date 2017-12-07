@@ -112,13 +112,13 @@ const onUpdateMovement = (sock) => {
 };
 
 const onResetScores = (sock) => {
-    const socket = sock;
-    
-    socket.on('resetScores', () => {
-        if(users[socket.name]) {
-            io.sockets.in(`room${users[socket.name].currentRoom}`).emit('nextGame');
-        }
-    });
+  const socket = sock;
+
+  socket.on('resetScores', () => {
+    if (users[socket.name]) {
+      io.sockets.in(`room${users[socket.name].currentRoom}`).emit('nextGame');
+    }
+  });
 };
 
 

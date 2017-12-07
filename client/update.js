@@ -7,10 +7,16 @@ const update = (data) => {
     users[data.name] = data;
     return;
   }
+
+  //if we received an old message, just drop it
+  if(users[data.name].lastUpdate >= data.lastUpdate) {
+    return;
+  }
   
   const user = users[data.name];
   user.scorebar = data.scorebar;
-    
+
+
   switch(currentGame){
       case 0:
           if(user.scorebar <= 0){
@@ -26,21 +32,18 @@ const update = (data) => {
           break;
       case 2:
           if(user.scorebar <= 100){
+              console.dir(user.scorebar);
               gameWin(user);
               scoreBar = 100;
           }
           break;
   }
+
     
   //if the update is for our own character (we dont need it)
   //Although, it could be used for player validation
   if(user.name === name){
     
-    return;
-  }
-    
-  //if we received an old message, just drop it
-  if(users[data.name].lastUpdate >= data.lastUpdate) {
     return;
   }
   
@@ -133,17 +136,17 @@ const readyNextGame = () => {
     gameState = 0;
     switch(currentGame){
         case 0:
-            currentGame = 1;
             users[name].scorebar = 0;
+            currentGame = 1;
             break;
         case 1:
-            currentGame = 2;
             users[name].scorebar = 450;
+            currentGame = 2;
             break;
         case 2:
-            console.dir("Hit.");
-            currentGame = 0;
+            console.dir(users[name].scorebar);
             users[name].scorebar = 450;
+            currentGame = 0;
             break;
     }
 };
