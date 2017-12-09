@@ -33,10 +33,19 @@ const onJoined = (sock) => {
   socket.on('join', (data) => {
     // add user to the count
     currentRoomCount++;
+    let userName = data.name;
+    let loopNum = 0;
 
+    while (users[userName] !== undefined) {
+      userName += loopNum;
+      loopNum++;
+    }
 
-    users[data.name] = data.name;
-    socket.name = data.name;
+    if (userName !== data.name) {
+      socket.emit('nameChange', userName);
+    }
+    users[userName] = userName;
+    socket.name = userName;
 
 
     socket.join(`room${currentRoom}`);
@@ -60,21 +69,21 @@ const onJoined = (sock) => {
     // Add their username to the user list
 
     // roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
-    users[data.name] = new Character(data.name);
-    users[data.name].currentRoom = currentRoom;
-    users[data.name].currentRoomCount = currentRoomCount;
-    users[data.name].spaceX = (currentRoomCount - 1) * 250;
-    users[data.name].widthX = users[data.name].canvasWidth / maxCount;
-    users[data.name].color = colors[currentRoomCount - 1];
+    users[userName] = new Character(userName);
+    users[userName].currentRoom = currentRoom;
+    users[userName].currentRoomCount = currentRoomCount;
+    users[userName].spaceX = (currentRoomCount - 1) * 250;
+    users[userName].widthX = users[userName].canvasWidth / maxCount;
+    users[userName].color = colors[currentRoomCount - 1];
 
-    socket.emit('setUser', users[data.name]);
+    socket.emit('setUser', users[userName]);
 
 
     // if there are 3 people in the room, start the game
     // and change the name of the room for the next party
     if (currentRoomCount >= 2) {
       if (currentRoomCount === 2) {
-        users[data.name].currentRoomCount = 2;
+        users[userName].currentRoomCount = 2;
         io.sockets.in(`room${currentRoom}`).emit('startRoom', {});
         currentRoom++;
       }
@@ -121,6 +130,30 @@ const onResetScores = (sock) => {
   });
 };
 
+const onReady = (sock) => {
+  const socket = sock;
+
+  socket.on('ready', () => {
+    socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('playerReady');
+  });
+};
+
+const onGameEnd = (sock) => {
+  const socket = sock;
+
+  socket.on('gameEnd', (data) => {
+    socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('getScore', data);
+  });
+};
+
+const onWinner = (sock) => {
+  const socket = sock;
+
+  socket.on('winner', (data) => {
+    socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('sendWinner', data);
+  });
+};
+
 
 const onDisconnect = (sock) => {
   const socket = sock;
@@ -142,6 +175,9 @@ const setupSockets = (ioServer) => {
     onJoined(socket);
     onUpdateMovement(socket);
     onResetScores(socket);
+    onReady(socket);
+    onGameEnd(socket);
+    onWinner(socket);
     onDisconnect(socket);
   });
 };

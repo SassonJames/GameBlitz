@@ -5,11 +5,15 @@ let currentGame;
 let pumpSpot;
 let pumping;
 let scoreBar;
+let gameWins;
 let currentWinner;
+let overallWinner;
 let gameReady;
+let playerReady;
 
 //our websocket connection
 let socket;
+let changedName;
 let name;
 let animationFrame;
 
@@ -37,7 +41,13 @@ const keyUpHandler = (e) => {
                             gameState = 1;
                         }
                         else if(gameState == 5){
-                            socket.emit('resetScores');
+                            if(playerReady){
+                                socket.emit('resetScores');
+                            }
+                            else{
+                                users[name].scorebar = 0;
+                                socket.emit('ready');
+                            }
                         }
                         break;
                     case 37:
@@ -67,14 +77,22 @@ const keyUpHandler = (e) => {
                             gameState = 2;
                         }
                         else if(gameState == 5){
-                            socket.emit('resetScores');
+                            if(playerReady){
+                                socket.emit('resetScores');
+                            }
+                            else{
+                                users[name].scorebar = 450;
+                                socket.emit('ready');
+                            }
                         }
                         break;
                     case 38:
-                        if(gameState == 1){
-                            pumping = false;
+                        if(gameState != 5){
+                            if(gameState == 1){
+                                pumping = false;
+                            }
+                            gameState = 1;
                         }
-                        gameState = 1;
                         break;
                 }
                 break;
@@ -85,7 +103,14 @@ const keyUpHandler = (e) => {
                             gameState = 1;
                         }
                         else if(gameState == 5){
-                            socket.emit('resetScores');
+                            if(playerReady){
+                                socket.emit('resetScores');
+                            }
+                            else{
+                                users[name].scorebar = 450;
+                                socket.emit('gameEnd', gameWins);
+                                socket.emit('ready');
+                            }
                         }
                         break;
                     case 37:
@@ -136,7 +161,7 @@ const keyDownHandler = (e) => {
         case 1:
             switch(keyPressed){
                 case 38:
-                    if(gameState != 3){
+                    if(gameState != 3 && gameState != 5){
                         pumping = true;
                         gameState = 1;
                     }
@@ -156,9 +181,13 @@ const keyDownHandler = (e) => {
 const setupSocket = () => {
      //Socket Connect Part
     socket = io.connect();
-    socket.on('connect', ready);
+    socket.on('connect', launchGame);
+    socket.on('nameChange', changeName);
     socket.on('setUser', setUser);
     socket.on('updatedMovement', update);
+    socket.on('playerReady', readyUp);
+    socket.on('getScore', compareScore);
+    socket.on('sendWinner', setWinner);
     socket.on('nextGame', readyNextGame);
 };
 

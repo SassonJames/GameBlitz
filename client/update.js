@@ -16,28 +16,29 @@ const update = (data) => {
   const user = users[data.name];
   user.scorebar = data.scorebar;
 
-
-  switch(currentGame){
-      case 0:
-          if(user.scorebar <= 0){
-              gameWin(user);
-              scoreBar = 0;
-          }
-          break;
-      case 1:
-          if(user.scorebar >= 250){
-              gameWin(user);
-              scoreBar = 250;
-          }
-          break;
-      case 2:
-          if(user.scorebar <= 100){
-              console.dir(user.scorebar);
-              gameWin(user);
-              scoreBar = 100;
-          }
-          break;
+  if(gameState != 5){
+      switch(currentGame){
+          case 0:
+              if(user.scorebar <= 0){
+                  gameWin(user);
+                  scoreBar = 0;
+              }
+              break;
+          case 1:
+              if(user.scorebar >= 250){
+                  gameWin(user);
+                  scoreBar = 250;
+              }
+              break;
+          case 2:
+              if(user.scorebar <= 100){
+                  gameWin(user);
+                  scoreBar = 100;
+              }
+              break;
+      }
   }
+  
 
     
   //if the update is for our own character (we dont need it)
@@ -52,6 +53,9 @@ const update = (data) => {
 
 const gameWin = (player) => {
     currentWinner = player.name;
+    if(player.name == name){
+        gameWins++;
+    }
     gameState = 5;
 };
 
@@ -65,6 +69,7 @@ const removeUser = (data) => {
 
 const setUser = (data) => {
   name = data.name; //set this user's hash to the unique one they received
+  console.log(name);
   users[name] = data; //set the character by their name
   
   //Testing
@@ -77,7 +82,15 @@ const setUser = (data) => {
   
   instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
   instruction.appendChild(yellow);
-  instruction.innerHTML += 'platform';
+  instruction.innerHTML += 'platform.';
+  if(changedName == true){
+      instruction.innerHTML += " The username you chose was taken. Your name has been changed to ";
+      instruction.innerHTML += name;
+  }
+};
+
+const changeName = () => {
+    changedName = true;
 };
 
 //update this user's positions based on keyboard input
@@ -104,15 +117,18 @@ const setupGame = () => {
     gameState = 0;
     currentGame = 0;
     scoreBar = 450;
+    gameWins = 0;
     pumpSpot = 0;
     pumping = false;
     currentWinner = "";
+    overallWinner = "";
+    playerReady = false;
     document.body.addEventListener('keyup', keyUpHandler);
     document.body.addEventListener('keydown', keyDownHandler);
     //setInterval(draw, 10);
 }
 
-const ready = () => {
+const launchGame = () => {
     let loadingPart = document.querySelector('#loadingPart');
     name = document.querySelector("#username").value;
     loginPart.innerHTML = "Waiting for the second user...";
@@ -132,21 +148,50 @@ const ready = () => {
     
 };
 
+const readyUp = () => {
+    if(!playerReady){
+        switch(currentGame){
+            case 0:
+                users[name].scorebar = 0;
+                break;
+            case 1:
+                users[name].scorebar = 450;
+                break;
+            case 2:
+                users[name].scorebar = 450;
+                break;
+        }
+        console.log("Partner is Ready. Press Space to begin.");
+        playerReady = true;
+    }
+};
+
 const readyNextGame = () => {
     gameState = 0;
+    playerReady = false;
     switch(currentGame){
         case 0:
-            users[name].scorebar = 0;
             currentGame = 1;
             break;
         case 1:
-            users[name].scorebar = 450;
             currentGame = 2;
             break;
         case 2:
-            console.dir(users[name].scorebar);
-            users[name].scorebar = 450;
-            currentGame = 0;
+            currentGame = 3;
             break;
     }
+};
+
+const compareScore = (score) => {
+    if(gameWins > score){
+        overallWinner = name;
+        socket.emit('winner', name);
+    }
+    else{
+        socket.emit('gameEnd', gameWins);
+    }
+};
+
+const setWinner = (winnerName) => {
+    overallWinner = winnerName;
 };

@@ -107,14 +107,19 @@ const draw = () => {
                     break;
             }
             break;
+        case 3:
+            ctx.textAlign = "center";
+            ctx.fillText(overallWinner + " Wins!", 250, 200);
+            ctx.fillText("To Play Again, Press Space to Ready.", 250, 220);
     }
     socket.emit('movementUpdate', users[name]);
     requestAnimationFrame(draw);
 };
 
 const drawWin = () => {
+    ctx.textAlign = "center";
     ctx.fillStyle = 'black';
     ctx.font = "20px Arial";
-    ctx.fillText(currentWinner += " Wins!", 180, 200);
-    ctx.fillText("Press Space to Move On!", 150, 250);
+    ctx.fillText(currentWinner + " Wins!", 250, 200);
+    ctx.fillText("Press Space to Move On!", 250, 220);
 };
