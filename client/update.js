@@ -77,7 +77,7 @@ const setUser = (data) => {
   yellow.textContent = users[name].color.toUpperCase()+ ' ';
   yellow.style.color = users[name].color;
   
-  let instruction = document.getElementById("instruction");
+  instruction = document.getElementById("instruction");
   //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
   
   instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";

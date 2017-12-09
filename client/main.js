@@ -16,6 +16,8 @@ let socket;
 let changedName;
 let name;
 let animationFrame;
+let instruction;
+let yellow;
 
 //Quang connecting room
 let users = [];

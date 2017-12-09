@@ -1,9 +1,53 @@
 const draw = () => {
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-  
     const keys = Object.keys(users);
     
+    switch(currentGame) {
+      case 0:
+        //Testing
+        yellow = document.createElement("span");
+        yellow.textContent = users[name].color.toUpperCase()+ ' ';
+        yellow.style.color = users[name].color;
+
+        instruction = document.getElementById("instruction");
+        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+
+        instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
+        instruction.appendChild(yellow);
+        instruction.innerHTML += 'platform.';
+        break;
+      
+      case 1:
+        console.dir("haha");
+        //Testing
+        yellow = document.createElement("span");
+        yellow.textContent = users[name].color.toUpperCase()+ ' ';
+        yellow.style.color = users[name].color;
+
+        instruction = document.getElementById("instruction");
+        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+
+        instruction.innerHTML = "Use Up and Down Arrow Keys to Inflat the ";
+        instruction.appendChild(yellow);
+        instruction.innerHTML += 'circle.';
+        break;
+        
+      case 2:
+        //Testing
+        yellow = document.createElement("span");
+        yellow.textContent = users[name].color.toUpperCase()+ ' ';
+        yellow.style.color = users[name].color;
+
+        instruction = document.getElementById("instruction");
+        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+
+        instruction.innerHTML = "Use Arrow Keys to Raise the ";
+        instruction.appendChild(yellow);
+        instruction.innerHTML += 'flags.';
+        break;
+    }
+  
     switch(currentGame){
         case 0:
             //for each user
