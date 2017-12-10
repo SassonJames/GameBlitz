@@ -25,8 +25,8 @@ let tiles = [];
 let user;
 
 //Image assets
-let greyTile;
-let brownTile;
+let green;
+let red;
 
 let square = {
     updateTime: new Date().getTime(),
@@ -199,7 +199,8 @@ const setupSocket = () => {
 
         
 const init = () => {
-  
+  green = document.querySelector('#green');
+  red = document.querySelector('#red');
   //setup the socket
   const connect = document.querySelector('#connect');
   connect.addEventListener('click', setupSocket);

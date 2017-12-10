@@ -4,10 +4,7 @@ const draw = () => {
     const keys = Object.keys(users);
     for(let i = keys.length-1; i >= 0; i--){
         const user = users[keys[i]];
-        ctx.fillStyle = user.color;
-        let a = '#';
-        a += user.color;
-        tiles[i] = document.querySelector(a);
+        tiles[i] = document.getElementById(user.color);
     }
 
     switch(currentGame) {
@@ -26,7 +23,6 @@ const draw = () => {
         break;
       
       case 1:
-        console.dir("haha");
         //Testing
         yellow = document.createElement("span");
         yellow.textContent = users[name].color.toUpperCase()+ ' ';
@@ -69,14 +65,12 @@ const draw = () => {
                 case 0:
                     break;
                 case 1:
-                    ctx.fillStyle = 'red';
-                    ctx.strokeStyle = 'red';
-                    ctx.fillRect(200, 450, 50, 50);
+                    ctx.drawImage(red, 200, 400, 105, 100);
+                    //ctx.fillRect(250, 450, 50, 50);
                     break;
                 case 2:
-                    ctx.fillStyle = 'blue';
-                    ctx.strokeStyle = 'blue';
-                    ctx.fillRect(250, 450, 50, 50);
+                    ctx.drawImage(green, 200, 400, 105, 100);
+                    //ctx.fillRect(200, 450, 50, 50);
                     break;
                 case 5:
                     drawWin();
@@ -85,15 +79,21 @@ const draw = () => {
             
             break;
         case 1:
+            
             //for each user
             for(let i = keys.length-1; i >= 0; i--){
               const user = users[keys[i]];
+              tiles[i].src = "/assets/images/" + user.color + 'ball.png';
+              ctx.save();
               ctx.fillStyle = user.color;
               ctx.strokeStyle = user.color;
               ctx.beginPath();
-              ctx.arc(250,500-user.scorebar,user.scorebar,0,2*Math.PI);
+              //ctx.arc(250,500-user.scorebar,user.scorebar,0,2*Math.PI);
+              ctx.drawImage(tiles[i], 250-user.scorebar, 500-user.scorebar * 2, user.scorebar * 2, user.scorebar * 2);
+              //ctx.drawImage(tiles[i], user.spaceX, user.scorebar);
               ctx.fill();
               ctx.stroke();
+              ctx.restore();
             }
             switch(gameState){
                 case 0:
@@ -160,6 +160,7 @@ const draw = () => {
             }
             break;
         case 3:
+            ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.fillText(overallWinner + " Wins!", 250, 200);
             ctx.fillText("To Play Again, Press Space to Ready.", 250, 220);
