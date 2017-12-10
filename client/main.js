@@ -21,8 +21,12 @@ let yellow;
 
 //Quang connecting room
 let users = [];
+let tiles = [];
 let user;
 
+//Image assets
+let greyTile;
+let brownTile;
 
 let square = {
     updateTime: new Date().getTime(),
@@ -195,6 +199,7 @@ const setupSocket = () => {
 
         
 const init = () => {
+  
   //setup the socket
   const connect = document.querySelector('#connect');
   connect.addEventListener('click', setupSocket);

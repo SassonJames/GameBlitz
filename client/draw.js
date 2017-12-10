@@ -2,7 +2,14 @@ const draw = () => {
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
     const keys = Object.keys(users);
-    
+    for(let i = keys.length-1; i >= 0; i--){
+        const user = users[keys[i]];
+        ctx.fillStyle = user.color;
+        let a = '#';
+        a += user.color;
+        tiles[i] = document.querySelector(a);
+    }
+
     switch(currentGame) {
       case 0:
         //Testing
@@ -53,9 +60,10 @@ const draw = () => {
             //for each user
             for(let i = 0; i < keys.length; i++){
               const user = users[keys[i]];
-              ctx.fillStyle = user.color;
-              ctx.strokeStyle = user.color;
-              ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);
+              //ctx.fillStyle = user.color;
+              //ctx.strokeStyle = user.color;
+              ctx.drawImage(tiles[i], user.spaceX, user.scorebar);
+              //ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);
             }
             switch(gameState){  
                 case 0:

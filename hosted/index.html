@@ -24,6 +24,10 @@
         .yellow {
           color: yellow;
         }
+        
+        .hidden {
+          display: none;
+        }
     </style>
     <head>
         <script src="/socket.io/socket.io.js"></script>
@@ -42,10 +46,12 @@
           <input id='connect' type='button' value='Join' /> <br />
         </div>
       </div>
-        <div id ="appPart">
+      <div id ="appPart">
           <canvas id="canvas" height="500" width="500">Why are you not using HTML5?</canvas>
           <h2>Press Space to Begin.</h2>
           <h3 id="instruction">Use Left and Right Arrow Keys to Raise the Green Platform</h3>
-        </div>
+      </div>
+    <img id="brown" class="hidden" src="/assets/images/brown.png" alt="brown Tile" />
+    <img id="grey" class="hidden" src="/assets/images/grey.png" alt="grey Tile" />
     </body>
 </html>

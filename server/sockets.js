@@ -22,7 +22,7 @@ let io;
 let currentRoom = 0;
 let currentRoomCount = 0;
 // const name = '';
-const colors = ['green', 'yellow', 'grey', 'red'];
+const colors = ['brown', 'grey', 'grey', 'red'];
 const maxCount = 2;
 const users = {};
 
