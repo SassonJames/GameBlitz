@@ -79,20 +79,12 @@ const draw = () => {
             
             break;
         case 1:
-            
             //for each user
             for(let i = keys.length-1; i >= 0; i--){
               const user = users[keys[i]];
               tiles[i].src = "/assets/images/" + user.color + 'ball.png';
-              ctx.save();
-              ctx.fillStyle = user.color;
-              ctx.strokeStyle = user.color;
-              ctx.beginPath();
-              //ctx.arc(250,500-user.scorebar,user.scorebar,0,2*Math.PI);
+              ctx.save(); 
               ctx.drawImage(tiles[i], 250-user.scorebar, 500-user.scorebar * 2, user.scorebar * 2, user.scorebar * 2);
-              //ctx.drawImage(tiles[i], user.spaceX, user.scorebar);
-              ctx.fill();
-              ctx.stroke();
               ctx.restore();
             }
             switch(gameState){
@@ -123,16 +115,10 @@ const draw = () => {
             let polePos = 0;
             for(let i = keys.length-1; i >= 0; i--){
               const user = users[keys[i]];
+              tiles[i].src = "/assets/images/" + user.color + 'flag.png';
+              ctx.drawImage(tiles[i], user.spaceX+130,  user.scorebar - 75, 100, 100);
               ctx.fillStyle = 'grey';
               ctx.fillRect(user.spaceX + 125, 50, 10, 500);
-              ctx.fillStyle = user.color;
-              ctx.strokeStyle = user.color;
-              ctx.beginPath();
-              ctx.moveTo(user.spaceX+130, user.scorebar);
-              ctx.lineTo(user.spaceX+130, user.scorebar-50);
-              ctx.lineTo(user.spaceX+200, user.scorebar-25);
-              ctx.fill();
-              ctx.stroke();
               polePos = user.spaceX;
             }
             switch(gameState){
