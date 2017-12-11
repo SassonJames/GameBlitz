@@ -125,32 +125,40 @@ const draw = () => {
                 case 0:
                     break;
                 case 1:
-                    controller1.src = '/assets/images/steeringwheel.png';
-                    ctx.save();
-                    ctx.translate(125, 300);
-                    ctx.drawImage(controller1, 0, 0, 200, 200);
-                	ctx.restore(); 
+                    ctx.fillStyle = 'blue';
+                    ctx.fillRect(polePos+125, 450, 5, 50);
+//                    controller1.src = '/assets/images/steeringwheel.png';
+//                    ctx.save();
+//                    ctx.translate(125, 300);
+//                    ctx.drawImage(controller1, 0, 0, 200, 200);
+//                	   ctx.restore(); 
                     break;
                 case 2:
-                    controller1.src = '/assets/images/steeringwheel2.png';
-                    ctx.save();
-                    ctx.translate(125, 300);
-                    ctx.drawImage(controller1, 0, 0, 200, 200);
-                	ctx.restore(); 
+                      ctx.fillStyle = 'red';
+                      ctx.fillRect(polePos+75, 450, 50, 5);
+//                    controller1.src = '/assets/images/steeringwheel2.png';
+//                    ctx.save();
+//                    ctx.translate(125, 300);
+//                    ctx.drawImage(controller1, 0, 0, 200, 200);
+//                	ctx.restore(); 
                     break;
                 case 3:
-                    controller1.src = '/assets/images/steeringwheel3.png';
-                    ctx.save();
-                    ctx.translate(125, 300);
-                    ctx.drawImage(controller1, 0, 0, 200, 200);
-                	ctx.restore(); 
+                      ctx.fillStyle = 'black';
+                      ctx.fillRect(polePos+125, 400, 5, 50);
+//                    controller1.src = '/assets/images/steeringwheel3.png';
+//                    ctx.save();
+//                    ctx.translate(125, 300);
+//                    ctx.drawImage(controller1, 0, 0, 200, 200);
+//                	ctx.restore(); 
                     break;
                 case 4:
-                    controller1.src = '/assets/images/steeringwheel4.png';
-                    ctx.save();
-                    ctx.translate(125, 300);
-                    ctx.drawImage(controller1, 0, 0, 200,200);
-                	ctx.restore(); 
+                      ctx.fillStyle = 'white';
+                      ctx.fillRect(polePos+125, 450, 50, 5);
+//                    controller1.src = '/assets/images/steeringwheel4.png';
+//                    ctx.save();
+//                    ctx.translate(125, 300);
+//                    ctx.drawImage(controller1, 0, 0, 200,200);
+//                	ctx.restore(); 
                     break;
                 case 5:
                     drawWin();
