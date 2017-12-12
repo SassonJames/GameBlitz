@@ -18,57 +18,54 @@ const Character = require('./messages/Character.js');
 // socketio server instance
 let io;
 
-// const roomList = {};
+// Which room we are currently in
 let currentRoom = 0;
+
+// How many players in the current room
 let currentRoomCount = 0;
+
 // const name = '';
 const colors = ['brown', 'grey', 'grey', 'red'];
+
+// Maximum players per room
 const maxCount = 2;
+
+// All users on the server
 const users = {};
 
-
+// When a user joins the server
 const onJoined = (sock) => {
   const socket = sock;
 
+  // when the user joins
   socket.on('join', (data) => {
     // add user to the count
     currentRoomCount++;
     let userName = data.name;
     let loopNum = 0;
 
+    // If the userName is taken, add a numeral to the end until it is not
     while (users[userName] !== undefined) {
       userName += loopNum;
       loopNum++;
     }
 
+    // If we changed the username, let the user know
     if (userName !== data.name) {
       socket.emit('nameChange', userName);
     }
+
+    // Set the user's name
     users[userName] = userName;
     socket.name = userName;
 
-
+    // Have the user join the room
     socket.join(`room${currentRoom}`);
 
-    // if the room isn't in the roomlist
-    // if (!roomList[`room${currentRoom}`]) {
-    // console.log(`adding room ${currentRoom} to roomList`);
-    // roomList[`room${currentRoom}`] = {};
-    // roomList[`room${currentRoom}`].userList = {};
-    // }
+    // Our current room is that player's room
     socket.room = currentRoom;
-    // Test see room list
-    // roomList:
-    // { room0: //
-    //  { userList: //
-    //    { '1': 'A',
-    //      '2': 'B'
-    //    }
-    //  }
-    // }
-    // Add their username to the user list
 
-    // roomList[`room${currentRoom}`].userList[currentRoomCount] = new Character(data.name);
+    // Set up the user's information to be tracked by them and the server
     users[userName] = new Character(userName);
     users[userName].currentRoom = currentRoom;
     users[userName].currentRoomCount = currentRoomCount;
@@ -76,10 +73,11 @@ const onJoined = (sock) => {
     users[userName].widthX = users[userName].canvasWidth / maxCount;
     users[userName].color = colors[currentRoomCount - 1];
 
+    // Send the user's information back to them
     socket.emit('setUser', users[userName]);
 
 
-    // if there are 3 people in the room, start the game
+    // if there are 2 people in the room, start the game
     // and change the name of the room for the next party
     if (currentRoomCount >= 2) {
       if (currentRoomCount === 2) {
@@ -92,26 +90,20 @@ const onJoined = (sock) => {
   });
 };
 
-/* const onUpdateScore = (sock) => {
-  const socket = sock;
-
-  socket.on('updateScorebar', (data) => {
-    socket.broadcast.to(`room${socket.room}`).emit('recieveScore', data);
-  });
-};
-*/
+// Update the other players in the room when
+// a user has updated their movement
 const onUpdateMovement = (sock) => {
   const socket = sock;
 
+  // When recieving movement update
   socket.on('movementUpdate', (data) => {
     // update the user's info
-    // NOTICE: THIS IS NOT VALIDED AND IS UNSAFE
-
-    // charList[socket.hash].x = data.x;
 
     if (users[socket.name]) {
       // update the timestamp of the last change for this character
       users[socket.name].lastUpdate = new Date().getTime();
+
+      // update the scorebar of the user
       users[socket.name].scorebar = data.scorebar;
 
       // notify everyone of the user's updated movement
@@ -120,9 +112,13 @@ const onUpdateMovement = (sock) => {
   });
 };
 
+// When the user needs to reset the scores,
+// tell everyone to start the next game
 const onResetScores = (sock) => {
   const socket = sock;
 
+  // Tell all users to start the next game
+  // when the scores are reset
   socket.on('resetScores', () => {
     if (users[socket.name]) {
       io.sockets.in(`room${users[socket.name].currentRoom}`).emit('nextGame');
@@ -130,6 +126,7 @@ const onResetScores = (sock) => {
   });
 };
 
+// When a user is ready, let the other user know
 const onReady = (sock) => {
   const socket = sock;
 
@@ -138,14 +135,17 @@ const onReady = (sock) => {
   });
 };
 
+// When a user has won the current game, let the other user know
 const onVictory = (sock) => {
-    const socket = sock;
-    
-    socket.on('victory', (data) => {
-        socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('victory', data);
-    });
+  const socket = sock;
+
+  socket.on('victory', (data) => {
+    socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('victory', data);
+  });
 };
 
+// When a game has ended, send the score the other player
+// for comparison to determine a winner
 const onGameEnd = (sock) => {
   const socket = sock;
 
@@ -154,6 +154,8 @@ const onGameEnd = (sock) => {
   });
 };
 
+// When a winner is determined,
+// Let the other user know who the winner is
 const onWinner = (sock) => {
   const socket = sock;
 
@@ -162,7 +164,8 @@ const onWinner = (sock) => {
   });
 };
 
-
+// When a player disconnects from the server
+// Have them leave the room and then delete that user
 const onDisconnect = (sock) => {
   const socket = sock;
 
@@ -178,6 +181,7 @@ const setupSockets = (ioServer) => {
   // set our io server instance
   io = ioServer;
 
+  // Set up all the socket commands
   io.sockets.on('connection', (socket) => {
     onJoined(socket);
     onUpdateMovement(socket);

@@ -1,3 +1,6 @@
+/*
+* Tracks the player's information.
+*/
 class Character {
   constructor(name) {
     this.lastUpdate = new Date().getTime();
