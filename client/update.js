@@ -12,6 +12,12 @@ const update = (data) => {
   if(users[data.name].lastUpdate >= data.lastUpdate) {
     return;
   }
+    
+  //if the update is for our own character (we dont need it)
+  //Although, it could be used for player validation
+  if(data.name === name){
+    return;
+  }
   
   const user = users[data.name];
   user.scorebar = data.scorebar;
@@ -39,21 +45,22 @@ const update = (data) => {
       }
   }
   
-
-    
-  //if the update is for our own character (we dont need it)
-  //Although, it could be used for player validation
-  if(user.name === name){
-    
-    return;
-  }
-  
   //console.dir(data.speedX)
 };
 
 const gameWin = (player) => {
     currentWinner = player.name;
     if(player.name == name){
+        gameWins++;
+    }
+    socket.emit("victory", currentWinner);
+    gameState = 5;
+};
+
+const victory = (victor) => {
+    console.log("victor");
+    currentWinner = victor;
+    if(victor == name){
         gameWins++;
     }
     gameState = 5;

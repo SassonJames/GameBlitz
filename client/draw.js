@@ -62,7 +62,6 @@ const draw = () => {
               //ctx.fillStyle = user.color;
               //ctx.strokeStyle = user.color;
               ctx.drawImage(tiles[i], user.spaceX, user.scorebar);
-              console.log(user.scorebar);
               //ctx.fillRect(user.spaceX, user.scorebar, user.widthX, 500);
             }
             switch(gameState){  

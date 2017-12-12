@@ -56,7 +56,7 @@ const keyUpHandler = (e) => {
                                 users[name].scorebar = 0;
                                 socket.emit('ready');
                                 document.getElementById("start").innerHTML = "Waiting for Partner...";
-                                document.getElementById("instructions").innerHTML = "";
+                                document.getElementById("instruction").innerHTML = "";
                             }
                         }
                         break;
@@ -94,7 +94,7 @@ const keyUpHandler = (e) => {
                                 users[name].scorebar = 450;
                                 socket.emit('ready');
                                 document.getElementById("start").innerHTML = "Waiting for Partner...";
-                                document.getElementById("instructions").innerHTML = "";
+                                document.getElementById("instruction").innerHTML = "";
                             }
                         }
                         break;
@@ -123,7 +123,7 @@ const keyUpHandler = (e) => {
                                 socket.emit('gameEnd', gameWins);
                                 socket.emit('ready');
                                 document.getElementById("start").innerHTML = "Waiting for Partner...";
-                                document.getElementById("instructions").innerHTML = "";
+                                document.getElementById("instruction").innerHTML = "";
                             }
                         }
                         break;
@@ -201,6 +201,7 @@ const setupSocket = () => {
     socket.on('updatedMovement', update);
     socket.on('playerReady', readyUp);
     socket.on('getScore', compareScore);
+    socket.on('victory', victory);
     socket.on('sendWinner', setWinner);
     socket.on('nextGame', readyNextGame);
 };

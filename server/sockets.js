@@ -115,7 +115,7 @@ const onUpdateMovement = (sock) => {
       users[socket.name].scorebar = data.scorebar;
 
       // notify everyone of the user's updated movement
-      io.sockets.in(`room${users[socket.name].currentRoom}`).emit('updatedMovement', users[socket.name]);
+      socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('updatedMovement', users[socket.name]);
     }
   });
 };
@@ -136,6 +136,15 @@ const onReady = (sock) => {
   socket.on('ready', () => {
     socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('playerReady');
   });
+};
+
+const onVictory = (sock) => {
+    const socket = sock;
+    
+    socket.on('victory', (data) => {
+        socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('victory', data);
+        console.log(data);
+    });
 };
 
 const onGameEnd = (sock) => {
@@ -176,6 +185,7 @@ const setupSockets = (ioServer) => {
     onUpdateMovement(socket);
     onResetScores(socket);
     onReady(socket);
+    onVictory(socket);
     onGameEnd(socket);
     onWinner(socket);
     onDisconnect(socket);
