@@ -58,7 +58,6 @@ const gameWin = (player) => {
 };
 
 const victory = (victor) => {
-    console.log("victor");
     currentWinner = victor;
     if(victor == name){
         gameWins++;
@@ -76,24 +75,12 @@ const removeUser = (data) => {
 
 const setUser = (data) => {
   name = data.name; //set this user's hash to the unique one they received
-  console.log(name);
   users[name] = data; //set the character by their name
   
   //Testing
   var yellow = document.createElement("span");
   yellow.textContent = users[name].color.toUpperCase()+ ' ';
   yellow.style.color = users[name].color;
-  
-  instruction = document.getElementById("instruction");
-  //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
-  
-  instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
-  instruction.appendChild(yellow);
-  instruction.innerHTML += 'platform.';
-  if(changedName == true){
-      instruction.innerHTML += " The username you chose was taken. Your name has been changed to ";
-      instruction.innerHTML += name;
-  }
 };
 
 const changeName = () => {
@@ -169,6 +156,9 @@ const readyUp = () => {
             case 2:
                 users[name].scorebar = 450;
                 break;
+            case 3:
+                gameWins = 0;
+                break;
         }
         document.getElementById("start").innerHTML = "Partner is Ready! Press Space to Continue!";
         document.getElementById("instruction").innerHTML = "";
@@ -188,6 +178,11 @@ const readyNextGame = () => {
             break;
         case 2:
             currentGame = 3;
+            document.getElementById("start").innerHTML = "Play Again?";
+            gameState = 5;
+            break;
+        case 3:
+            currentGame = 0;
             break;
     }
 };

@@ -59,6 +59,7 @@ const draw = () => {
             //for each user
             for(let i = 0; i < keys.length; i++){
               const user = users[keys[i]];
+              tiles[i].src = '/assets/images/' + user.color + '.png';
               //ctx.fillStyle = user.color;
               //ctx.strokeStyle = user.color;
               ctx.drawImage(tiles[i], user.spaceX, user.scorebar);

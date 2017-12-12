@@ -143,7 +143,6 @@ const onVictory = (sock) => {
     
     socket.on('victory', (data) => {
         socket.broadcast.to(`room${users[socket.name].currentRoom}`).emit('victory', data);
-        console.log(data);
     });
 };
 
@@ -168,7 +167,6 @@ const onDisconnect = (sock) => {
   const socket = sock;
 
   socket.on('disconnect', () => {
-    // console.log(`${socket.name} left`);
     socket.leave(`room${socket.room}`);
 
     delete users[socket.name];

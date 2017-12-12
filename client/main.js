@@ -189,6 +189,23 @@ const keyDownHandler = (e) => {
                     }
                     break;
             }
+            break;
+        case 3:
+            switch(keyPressed){
+                case 32:
+                    if(playerReady){
+                        socket.emit('resetScores');
+                        break;
+                    }
+                    else{
+                        socket.emit('ready');
+                        document.getElementById("start").innerHTML = "Waiting for Partner...";
+                        document.getElementById("instruction").innerHTML = "";
+                        gameWins = 0;
+                        break;
+                    }
+            }
+            break;
     }
 };
 
