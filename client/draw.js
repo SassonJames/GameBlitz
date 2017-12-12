@@ -125,17 +125,41 @@ const draw = () => {
                 case 0:
                     break;
                 case 1:
+                    ctx.save();
                     ctx.fillStyle = 'blue';
-                    ctx.fillRect(polePos+125, 450, 5, 50);
-//                    controller1.src = '/assets/images/steeringwheel.png';
+                    ctx.translate(polePos + 125,450);
+                    ctx.rotate(0);
+                    ctx.fillRect(0, 0, 5, 50);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 5, 0, 2 * Math.PI);
+                    ctx.fill();               
+                    ctx.restore();
+                    //ctx.fillStyle = 'blue';
+                    //ctx.fillRect(polePos+125, 450, 5, 50);
+                    //ctx.beginPath();
+                    //ctx.arc(125, 450, 5, 0, 2 * Math.PI);
+                   // ctx.fill();
+//                   controller1.src = '/assets/images/steeringwheel.png';
 //                    ctx.save();
 //                    ctx.translate(125, 300);
 //                    ctx.drawImage(controller1, 0, 0, 200, 200);
 //                	   ctx.restore(); 
                     break;
-                case 2:
+                case 2:           
+                      ctx.save();
                       ctx.fillStyle = 'red';
-                      ctx.fillRect(polePos+75, 450, 50, 5);
+                      ctx.translate(polePos + 125,450);
+                      ctx.rotate(Math.PI / 2);
+                      ctx.fillRect(0, 0, 5, 50);
+                      ctx.beginPath();
+                      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
+                      ctx.fill();
+                      ctx.restore();
+//                      ctx.fillStyle = 'red';
+//                      ctx.fillRect(polePos+75, 450, 50, 5);
+//                      ctx.beginPath();
+//                      ctx.arc(125, 450, 5, 0, 2 * Math.PI);
+//                      ctx.fill();
 //                    controller1.src = '/assets/images/steeringwheel2.png';
 //                    ctx.save();
 //                    ctx.translate(125, 300);
@@ -143,8 +167,20 @@ const draw = () => {
 //                	ctx.restore(); 
                     break;
                 case 3:
+                      ctx.save();
                       ctx.fillStyle = 'black';
-                      ctx.fillRect(polePos+125, 400, 5, 50);
+                      ctx.translate(polePos + 125,450);
+                      ctx.rotate(Math.PI);
+                      ctx.fillRect(0, 0, 5, 50);
+                      ctx.beginPath();
+                      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
+                      ctx.fill();
+                      ctx.restore();
+//                      ctx.fillStyle = 'black';
+//                      ctx.fillRect(polePos+125, 400, 5, 50);
+//                      ctx.beginPath();
+//                      ctx.arc(125, 450, 5, 0, 2 * Math.PI);
+//                      ctx.fill();
 //                    controller1.src = '/assets/images/steeringwheel3.png';
 //                    ctx.save();
 //                    ctx.translate(125, 300);
@@ -152,8 +188,20 @@ const draw = () => {
 //                	ctx.restore(); 
                     break;
                 case 4:
+                      ctx.save();
                       ctx.fillStyle = 'white';
-                      ctx.fillRect(polePos+125, 450, 50, 5);
+                      ctx.translate(polePos + 125,450);
+                      ctx.rotate(3 * Math.PI / 2);
+                      ctx.fillRect(0, 0, 5, 50);
+                      ctx.beginPath();
+                      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
+                      ctx.fill();
+                      ctx.restore();
+//                      ctx.fillStyle = 'white';
+//                      ctx.fillRect(polePos + 125, 450, 50, 5);
+//                      ctx.beginPath();
+//                      ctx.arc(125, 450, 5, 0, 2 * Math.PI);
+//                      ctx.fill();
 //                    controller1.src = '/assets/images/steeringwheel4.png';
 //                    ctx.save();
 //                    ctx.translate(125, 300);
