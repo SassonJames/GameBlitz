@@ -6,49 +6,52 @@ const draw = () => {
         const user = users[keys[i]];
         tiles[i] = document.getElementById(user.color);
     }
-
-    switch(currentGame) {
-      case 0:
-        //Testing
-        yellow = document.createElement("span");
-        yellow.textContent = users[name].color.toUpperCase()+ ' ';
-        yellow.style.color = users[name].color;
-
-        instruction = document.getElementById("instruction");
-        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
-
-        instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
-        instruction.appendChild(yellow);
-        instruction.innerHTML += 'platform.';
-        break;
-      
-      case 1:
-        //Testing
-        yellow = document.createElement("span");
-        yellow.textContent = users[name].color.toUpperCase()+ ' ';
-        yellow.style.color = users[name].color;
-
-        instruction = document.getElementById("instruction");
-        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
-
-        instruction.innerHTML = "Use Up and Down Arrow Keys to Inflat the ";
-        instruction.appendChild(yellow);
-        instruction.innerHTML += 'circle.';
-        break;
-        
-      case 2:
-        //Testing
-        yellow = document.createElement("span");
-        yellow.textContent = users[name].color.toUpperCase()+ ' ';
-        yellow.style.color = users[name].color;
-
-        instruction = document.getElementById("instruction");
-        //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
-
-        instruction.innerHTML = "Use Arrow Keys to Raise the ";
-        instruction.appendChild(yellow);
-        instruction.innerHTML += 'flags.';
-        break;
+    
+    if(gameState != 5){
+        document.getElementById("start").innerHTML = "Press Space to begin!"
+        switch(currentGame) {
+          case 0:
+            //Testing
+            yellow = document.createElement("span");
+            yellow.textContent = users[name].color.toUpperCase()+ ' ';
+            yellow.style.color = users[name].color;
+    
+            instruction = document.getElementById("instruction");
+            //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+    
+            instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the ";
+            instruction.appendChild(yellow);
+            instruction.innerHTML += 'platform.';
+            break;
+          
+          case 1:
+            //Testing
+            yellow = document.createElement("span");
+            yellow.textContent = users[name].color.toUpperCase()+ ' ';
+            yellow.style.color = users[name].color;
+    
+            instruction = document.getElementById("instruction");
+            //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+    
+            instruction.innerHTML = "Use Up and Down Arrow Keys to Inflate the ";
+            instruction.appendChild(yellow);
+            instruction.innerHTML += 'circle.';
+            break;
+            
+          case 2:
+            //Testing
+            yellow = document.createElement("span");
+            yellow.textContent = users[name].color.toUpperCase()+ ' ';
+            yellow.style.color = users[name].color;
+    
+            instruction = document.getElementById("instruction");
+            //instruction.innerHTML = "Use Left and Right Arrow Keys to Raise the " +users[name].color.toUpperCase() +" Platform";
+    
+            instruction.innerHTML = "Use Arrow Keys to Raise the ";
+            instruction.appendChild(yellow);
+            instruction.innerHTML += 'flags. Crank Clockwise!';
+            break;
+        }
     }
   
     switch(currentGame){

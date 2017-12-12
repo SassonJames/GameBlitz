@@ -55,13 +55,15 @@ const keyUpHandler = (e) => {
                             else{
                                 users[name].scorebar = 0;
                                 socket.emit('ready');
+                                document.getElementById("start").innerHTML = "Waiting for Partner...";
+                                document.getElementById("instructions").innerHTML = "";
                             }
                         }
                         break;
                     case 37:
                         if(gameState == 1){
                             gameState = 2;
-                            users[name].scorebar -= 40;
+                            users[name].scorebar -= 4;
                             if(users[name].scorebar < 0){
                                 users[name].scorebar = 0;
                             }
@@ -70,7 +72,7 @@ const keyUpHandler = (e) => {
                     case 39:
                         if(gameState == 2){
                             gameState = 1;
-                            users[name].scorebar -= 40;
+                            users[name].scorebar -= 4;
                             if(users[name].scorebar < 0){
                                 users[name].scorebar = 0;
                             }
@@ -91,6 +93,8 @@ const keyUpHandler = (e) => {
                             else{
                                 users[name].scorebar = 450;
                                 socket.emit('ready');
+                                document.getElementById("start").innerHTML = "Waiting for Partner...";
+                                document.getElementById("instructions").innerHTML = "";
                             }
                         }
                         break;
@@ -118,6 +122,8 @@ const keyUpHandler = (e) => {
                                 users[name].scorebar = 450;
                                 socket.emit('gameEnd', gameWins);
                                 socket.emit('ready');
+                                document.getElementById("start").innerHTML = "Waiting for Partner...";
+                                document.getElementById("instructions").innerHTML = "";
                             }
                         }
                         break;

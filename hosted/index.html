@@ -36,7 +36,38 @@
             width: 200px;
             height: 510px;
         }
+        
+        #game1{
+            position: absolute;
+            top: 100%;
+            left: 0%;
+            width: 100px;
+            height: 100px;
+        }
+        
+        #game2{
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        
+        #game3{
+            position: absolute;
+            top: 100%;
+            left: 100%;
+            width: 100px;
+            height: 100px;
+        }
       
+        #dlc{
+            position: fixed;
+            top: 30%;
+            left 30%;
+            display: block;
+        }
+        
         .yellow {
           color: yellow;
         }
@@ -53,9 +84,9 @@
     </head>
     <body>
       <div id ="loadingPart">
-        <h1>Welcome to sort of Mario Party style game</h1>
-        <p>This is a 2-user app in which 2 users cooperate to create a master piece</p>
-        <p>Enjoy this experience!</p>
+        <h1>Welcome to Game Blitz!</h1>
+        <p>Two Players Compete Head to Head!</p>
+        <p>Login to Find a Partner...</p>
         <div id ="loginPart">
           <label class="labelTitle" for="user">Username:</label>
           <input id="username" name="user" type="text"/>
@@ -64,7 +95,7 @@
       </div>
       <div id ="appPart">
           <canvas id="canvas" height="500" width="500">Why are you not using HTML5?</canvas>
-          <h2>Press Space to Begin.</h2>
+          <h2 id="start">Press Space to Begin.</h2>
           <h3 id="instruction">Use Left and Right Arrow Keys to Raise the Green Platform</h3>
           <img id="display1" src="/assets/images/display1.png" alt="Display should be here" />
           <img id="display2" src="/assets/images/display2.png" alt="Display should be here" />
@@ -74,4 +105,10 @@
     <img id="controller1" class="hidden" src="/assets/images/green.png" alt="green" />
     <img id="controller2" class="hidden" src="/assets/images/red.png" alt="red" />
     </body>
+    <div id="dlc">
+        <p>Click on Images below for DLC!</p>
+        <img id="game1" src="/assets/images/LockedMultiplayer.png" alt="multiplayer" />
+        <img id="game2" src="/assets/images/LockedTarget.png" alt="target" />
+        <img id="game3" src="/assets/images/LockedQuickDraw.png" alt="quickdraw" />
+    </div>
 </html>

@@ -129,6 +129,8 @@ const setupGame = () => {
 }
 
 const launchGame = () => {
+    
+    document.querySelector('#dlc').style.display = 'none';
     let loadingPart = document.querySelector('#loadingPart');
     name = document.querySelector("#username").value;
     loginPart.innerHTML = "Waiting for the second user...";
@@ -161,7 +163,8 @@ const readyUp = () => {
                 users[name].scorebar = 450;
                 break;
         }
-        console.log("Partner is Ready. Press Space to begin.");
+        document.getElementById("start").innerHTML = "Partner is Ready! Press Space to Continue!";
+        document.getElementById("instruction").innerHTML = "";
         playerReady = true;
     }
 };
